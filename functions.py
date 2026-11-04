@@ -2,9 +2,11 @@
 # think of arguments instead of dots, and think of parameters at a function definition, 
 # and think what the function should return (which type). 
 # Note: average variable should contain float while min, max are integers
-def minMaxAverage():
-    # TODO
-    pass
+def minMaxAverage(numbers: list[int]) -> tuple[int, int, float] | tuple[None, None, None]:
+    result = (None, None, None)
+    if numbers:
+        result = (min(numbers), max(numbers), sum(numbers) / len(numbers))
+    return result
 
 # the function takes reference to a list
 # the function returns nothing
