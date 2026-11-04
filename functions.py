@@ -15,6 +15,13 @@ def minMaxAverage(numbers: list[int]) -> tuple[int, int, float] | tuple[None, No
 # l1: list[int]=[100, 20, 30, 40, 50]
 # moveMaxToEnd(l1)
 # after the above function call l1 shoild be bound to the list [20, 30, 40, 50, 100]
-def moveMaxToEnd():
-    # TODO
-    pass
+def moveMaxToEnd(numbers: list[int]) -> None:
+    if not numbers:
+        return
+    max_elem = max(numbers)
+    max_count = numbers.count(max_elem)
+    i = 0
+    while i < max_count:
+        numbers.remove(max_elem)
+        numbers.append(max_elem)
+        i += 1
