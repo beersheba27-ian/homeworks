@@ -41,6 +41,15 @@ def bubble_sort(numbers: list[int]) -> None:
     Totally 6 iterations: step 1 has 3 iterations, step 2 has 2 iterations ans step 4 has 1 iteratiion
     Common formula of the number of iterations for worst case is (n * (n - 1))/2
     """ 
+    i = 0
+    while i < len(numbers):
+        j = i + 1
+        while j < len(numbers):
+            if numbers[i] > numbers[j]:
+                numbers[i], numbers[j] = numbers[j], numbers[i]
+            j += 1
+        i += 1
+        
 def remove_duplicates(numbers: list[int])->list[int] :
     """
     Algorithm complexity O[N]
