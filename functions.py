@@ -14,7 +14,7 @@ def max_with_negative_duplicate (numbers:list[int]) -> int:
     duplicates = positives & negatives
     return -1 if not duplicates else max(duplicates)
 
-def sumOfTwoExists(numbers:list[int], sum: int):
+def sumOfTwoExists(numbers:list[int], sum: int) -> bool:
     """
     Algorithm complexity should be O[N]
     "numbers" - list with int numbers; "sum" - int
@@ -22,6 +22,13 @@ def sumOfTwoExists(numbers:list[int], sum: int):
     Examples: sumOfTwoExists([1, -1, 40, 50, 0], 0) => True;
     sumOfTwoExists([1, -1, 40, 50, 0], 42) => False
     """ 
+    checked = set[int]()
+    for num in numbers:
+        if num not in checked:
+            checked.add(sum - num)
+        else: return True
+    return False
+
 def bubble_sort(numbers: list[int]) -> None:
     """
     Algorithm complexity is O[N^2]
