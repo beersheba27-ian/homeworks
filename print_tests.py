@@ -27,6 +27,6 @@ print(f"initial array is {numbers}, after iserting 19 the expected list is\
 [ 10, 10, 10, 19, 20, 20, 20, 30, 30, 40],the actual is {numbers_ins19}")
 print(f"initial array is {numbers}, after iserting 20 the expected list is\
 [10, 10, 10, 20, 20, 20, 20, 30, 30, 40],the actual is {numbers_ins20}")
-print(f"initial array is {numbers}, after iserting 7 the expected list is\
+print(f"initial array is {numbers}, after iserting 45 the expected list is\
 [10, 10, 10, 20, 20, 20, 30, 30, 40, 45],the actual is {numbers_ins45}")
 
