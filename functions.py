@@ -11,14 +11,19 @@ def binary_search(numbers: list[int], num:int)->int:
     """    
     left: int = 0
     right: int = len(numbers) - 1
-    middle: int = (left + right) // 2
-    while left <= right and numbers[middle] != num:
-        if num < numbers[middle]:
-            right = middle - 1
+    target: int = (left + right) // 2
+    while left <= right and numbers[target] != num:
+        if num < numbers[target]:
+            right = target - 1
         else:
-            left = middle + 1
-        middle = (left + right) // 2
-    return middle if left <= right else -1
+            left = target + 1
+        target = (left + right) // 2
+    if left <= right:
+        while numbers[target] == numbers[target-1] and target > 0:
+            target -=1
+    else:
+        target = -(target + 2)
+    return target
 
 def insert_sorted(numbers: list[int], num: int) -> None:
     """
