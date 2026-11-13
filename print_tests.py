@@ -17,9 +17,10 @@ unittest_print.print_test(f"Sort of list {numbers} according to abs values", sor
 unittest_print.print_test(f"Sort of list {strings} ",sorted_len_str ,\
                            functions.bubble_sorted(strings, lambda s: (len(str(s)), s)) )
 
+unittest_print.print_test(f"Sort of list {numbers} according to even first in Asc, odd after even in Desc",sorted_even_odd ,\
+                           functions.even_asc_odd_desc(numbers) )
+
 unittest_print.print_test(f"merge of two parts {part1} and {part2} according to abs values",\
                           merge_expected, functions.merge(part1, part2, abs) )# pyright: ignore[reportArgumentType]
 
-unittest_print.print_test(f"Sort of list {numbers} according to even first in Asc, odd after even in Desc",sorted_even_odd ,\
-                           functions.even_asc_odd_desc(numbers) )
 unittest_print.print_results()

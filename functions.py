@@ -41,6 +41,22 @@ def even_asc_odd_desc(numbers: list[int])->list[int]:
     The even numbers ordered by ascending order reside before odd numbers ordered by descending order
     For example, even_asc_odd_desc([-3, -10, 12, 3, -21, 6, 21, 5, 4 ]) returns [-10, 4, 6, 12, 21, 5, 3, -3, -21]
     """
+    result = list[int]()
+    odds = list[int]()
+
+    for x in numbers:
+        if x % 2 == 0:
+            result.append(x)
+        else:
+            odds.append(x)
+
+    result.sort()
+    odds.sort(reverse=True)
+
+    result.extend(odds)
+
+    return result
+
 def merge(part1: Sequence[object], part2: Sequence[object], key: Callable[[object], object]|None = None)->list[object]:
     """
     part1 and part2 -  sorted in accordance with key function-converter lists of any objects 
