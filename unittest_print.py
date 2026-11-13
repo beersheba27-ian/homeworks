@@ -1,10 +1,17 @@
+from typing import Callable
+
 __failed_count: int = 0
 __passed_count: int = 0
 RED = '\33[31m'
 GREEN = '\33[32m'
 RESET = '\33[m'
-def print_test(description: str, expected: object, actual: object) -> None:
+def print_test(description: str, expected: object, function: Callable, **arguments) -> None:
     global __passed_count, __failed_count
+
+    try:
+        actual = function(**arguments)
+    except Exception as e:
+        actual = type(e).__name__
     
     if expected == actual:
         __passed_count += 1
