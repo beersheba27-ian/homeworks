@@ -57,7 +57,8 @@ def even_asc_odd_desc(numbers: list[int])->list[int]:
 
     return result
 
-def merge(part1: Sequence[object], part2: Sequence[object], key: Callable[[object], object]|None = None)->list[object]:
+# Ian: simplified types definition by the same logic
+def merge(part1: Sequence, part2: Sequence, key: Callable|None = None)->list:
     """
     part1 and part2 -  sorted in accordance with key function-converter lists of any objects 
     key - a function taking one object and returning converted object having standard operator ">"
@@ -66,4 +67,27 @@ def merge(part1: Sequence[object], part2: Sequence[object], key: Callable[[objec
     For example, merge([-11, 3, 5, 7], [-20, -10, 0, 4])  => [-20, -11, -10, 0, 3, 4, 5, 7]
     merge([3, 5, 7, -11 ], [ 0, 4, -10, -20 ], abs)  => [ 0, 3, 4, 5, 7, -10, -11,-20]
     """  
+    result = []
+    keys1 = list(part1) if key is None else [key(x) for x in part1]
+    keys2 = list(part2) if key is None else [key(x) for x in part2]
+    len1 = len(part1)
+    len2 = len(part2)
+    i1 = 0
+    i2 = 0
+
+    while i1 < len1 and i2 < len2:
+        if keys1[i1] > keys2[i2]:
+            result.append(part2[i2])
+            i2 += 1
+        else:
+            result.append(part1[i1])
+            i1 += 1
+
+    if i1 == len1 and i2 != len2:
+        result.extend(part2[i2:])
+    elif i2 == len2 and i1 != len1:
+        result.extend(part1[i1:])
+
+    return result
+
    
