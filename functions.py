@@ -29,7 +29,7 @@ def merge_in_place[T, K](items: list[T], start: int, len1: int, size: int ,\
             right = items[i2]
 
         # Ian: without "type: ignore" it still triggers error that T is not comparable
-        # And we can't guarantee O(N) complexity with tools that we have learned
+        # And we can't guarantee O(N) complexity with O(1) memory with tools that we have learned
         if left > right: # type: ignore
             item = items[i2]
             j = i2
