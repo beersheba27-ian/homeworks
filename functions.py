@@ -18,9 +18,12 @@ def merge_in_place[T, K](items: list[T], start: int, len1: int, size: int ,\
 
     i1 = start
     i2 = start + len1
+    mid = i2
     end = start + size
 
-    while i1 < i2 and i2 < end:
+    result = []
+
+    while i1 < mid and i2 < end:
         if key:
             left = key(items[i1])
             right = key(items[i2])
@@ -28,20 +31,16 @@ def merge_in_place[T, K](items: list[T], start: int, len1: int, size: int ,\
             left = items[i1]
             right = items[i2]
 
-        # Ian: without "type: ignore" it still triggers error that T is not comparable
-        # And we can't guarantee O(N) complexity with O(1) memory with tools that we have learned
-        if left > right: # type: ignore
-            item = items[i2]
-            j = i2
-
-            while j > i1:
-                items[j] = items[j - 1]
-                j -= 1
-
-            items[i1] = item
-            i1 += 1
+        if left > right:  # type: ignore
+            result.append(items[i2])
             i2 += 1
         else:
+            result.append(items[i1])
             i1 += 1
+
+    result.extend(items[i2:end])
+    result.extend(items[i1:mid])
+
+    items[start:end] = result
             
    
