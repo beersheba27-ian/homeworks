@@ -55,15 +55,11 @@ def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) ->
     chunk_len = int(sqrt(items_len))
     chunks_count = items_len // chunk_len
 
-    if items_len < chunk_len * 2:
-        return sorted(items, key=key) # type: ignore
-
     for i in range(0, chunks_count):
         if i != chunks_count-1:
-            chunk = list(items[i*chunk_len : (i + 1) * chunk_len])
+            chunk = bubble_sorted(list(items[i*chunk_len : (i + 1) * chunk_len]), key)
         else:
-            chunk = list(items[i*chunk_len:])
-        chunk.sort(key=key) # type: ignore
+            chunk = bubble_sorted(list(items[i*chunk_len:]), key)
         if i == 0:
             result.extend(chunk)
         else:
@@ -74,3 +70,35 @@ def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) ->
 def _insort_chunk[T, K](result: list[T], chunk: list[T], key:Callable[[T], T|K]|None=None) -> None:
     for x in chunk:
         insort(result, x, key=key) # type: ignore
+
+def bubble_sorted[T, K](items: Sequence[T], key:Callable[[T], T|K]|None=None)->list:
+    """
+    Sequence[object] means immutable list, so items cannot be updated
+    returns new list of objects sorted using algorithm "bubble sort"
+      in accorgance with key function-converter like standard Python sorting 
+    items - sequence of any objects
+    key - a function taking one object and returning converted object having standard operator ">"
+          default value None designating standard Python sorting with no converting initial object
+    For example, bubble_sort(numbers) - regular sort of numbers 
+                 bubble_sort(numbers, abs) - sort of numbers in accordance with their abs values
+    Unlike the standard sorting methods of Python, the function may be called with no explicit specifying key=                
+    """
+    result = list(items)
+
+    unsorted = True
+    size = len(items)
+    while(unsorted):
+        size -= 1
+        unsorted = bool(_move_max_to_end_by_keys(result, size, key))
+
+    return result
+
+def _move_max_to_end_by_keys[T, K](numbers: list[T], length: int, key:Callable[[T], T|K]|None=None):
+    nSwaps: int = 0
+    for i in range(length):
+        left_key = key(numbers[i]) if key else numbers[i]
+        right_key = key(numbers[i+1]) if key else numbers[i+1]
+        if left_key > right_key: # type: ignore
+            nSwaps += 1
+            numbers[i], numbers[i + 1] = numbers[i + 1], numbers[i]
+    return nSwaps

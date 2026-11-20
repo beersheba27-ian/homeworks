@@ -60,6 +60,9 @@ class TestMySorted(unittest.TestCase):
     def test_single_item(self):
         self.assertEqual(my_sorted([7]), [7])
 
+    def test_chunk_lenght_1(self):
+        self.assertEqual(my_sorted([2, 1, 3]), [1, 2, 3])
+
     def test_two_chunks(self):
         self.assertEqual(my_sorted([4, 1, 3, 2]), [1, 2, 3, 4])
 
