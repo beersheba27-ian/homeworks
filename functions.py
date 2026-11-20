@@ -63,13 +63,9 @@ def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) ->
         if i == 0:
             result.extend(chunk)
         else:
-            _insort_chunk(result, chunk, key)
+            result = merge(result, chunk, key)
 
     return result
-
-def _insort_chunk[T, K](result: list[T], chunk: list[T], key:Callable[[T], T|K]|None=None) -> None:
-    for x in chunk:
-        insort(result, x, key=key) # type: ignore
 
 def bubble_sorted[T, K](items: Sequence[T], key:Callable[[T], T|K]|None=None)->list:
     """
@@ -102,3 +98,33 @@ def _move_max_to_end_by_keys[T, K](numbers: list[T], length: int, key:Callable[[
             nSwaps += 1
             numbers[i], numbers[i + 1] = numbers[i + 1], numbers[i]
     return nSwaps
+
+def merge[T, K](part1: Sequence[T], part2: Sequence[T], key: Callable[[T], T|K]|None = None)->list:
+    """
+    part1 and part2 -  sorted in accordance with key function-converter lists of any objects 
+    key - a function taking one object and returning converted object having standard operator ">"
+              default value None designating standard Python sorting with no converting initial objects
+    returns new list, sorted in accordance with key function-converter, comprising of two lists-parts 
+    For example, merge([-11, 3, 5, 7], [-20, -10, 0, 4])  => [-20, -11, -10, 0, 3, 4, 5, 7]
+    merge([3, 5, 7, -11 ], [ 0, 4, -10, -20 ], abs)  => [ 0, 3, 4, 5, 7, -10, -11,-20]
+    """  
+    result = []
+    len1 = len(part1)
+    len2 = len(part2)
+    i1 = 0
+    i2 = 0
+
+    while i1 < len1 and i2 < len2:
+        left_key = key(part1[i1]) if key else part1[i1]
+        right_key = key(part2[i2]) if key else part2[i2]
+        if left_key > right_key:  # type: ignore
+            result.append(part2[i2])
+            i2 += 1
+        else:
+            result.append(part1[i1])
+            i1 += 1
+
+    result.extend(part2[i2:])
+    result.extend(part1[i1:])
+
+    return result
