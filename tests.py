@@ -61,34 +61,34 @@ class TestMySorted(unittest.TestCase):
         self.assertEqual(my_sorted([7]), [7])
 
     def test_two_chunks(self):
-        self.assertEqual(my_sorted([4, 1, 3, 2]), [1, 4, 2, 3])
+        self.assertEqual(my_sorted([4, 1, 3, 2]), [1, 2, 3, 4])
 
     def test_full_chunks(self):
         items = [6, 1, 5, 2, 4, 3, 9, 7, 8]
         self.assertEqual(
             my_sorted(items),
-            [1, 5, 6, 2, 3, 4, 7, 8, 9],
+            [1, 2, 3, 4, 5, 6, 7, 8, 9],
         )
 
     def test_short_last_chunk(self):
         items = [9, 1, 7, 6, 0, 8, 5, 2, 4, 3]
         self.assertEqual(
             my_sorted(items),
-            [1, 7, 9, 0, 6, 8, 2, 3, 4, 5],
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         )
 
     def test_duplicates(self):
         items = [4, 1, 4, 2, 3, 1, 2, 3, 1]
         self.assertEqual(
             my_sorted(items),
-            [1, 4, 4, 1, 2, 3, 1, 2, 3],
+            [1, 1, 1, 2, 2, 3, 3, 4, 4],
         )
 
     def test_key_function(self):
         items = [-8, 3, -1, 6, 2, -4, 5, -7, 0]
         self.assertEqual(
             my_sorted(items, key=abs),
-            [-1, 3, -8, 2, -4, 6, 0, 5, -7],
+            [0, -1, 2, 3, -4, 5, 6, -7, -8],
         )
 
     def test_tuple_key(self):
@@ -99,8 +99,8 @@ class TestMySorted(unittest.TestCase):
         self.assertEqual(
             my_sorted(items, key=lambda item: item[0]),
             [
-                ("apple", 1), ("pear", 4), ("fig", 3),
-                ("plum", 0), ("date", 2), ("lime", 5),
+                ("apple", 1), ("date", 2), ("fig", 3),
+                ("lime", 5), ("pear", 4), ("plum", 0),
             ],
         )
 

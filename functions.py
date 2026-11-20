@@ -1,6 +1,6 @@
 from typing import Callable, Sequence
 from math import sqrt
-from bisect import bisect_left, bisect_right
+from bisect import bisect_left, bisect_right, insort
 
 
 def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]:
@@ -40,7 +40,7 @@ def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) ->
     implementation according the following algorithm:
     "items" is divided on the parts, each of which contains sqrt(len(items)) items
     Each part should be sorted separately by bubble sorting algorithm that you have already implemented
-    After that all parts should be merged.
+    After that all parts should be merged in one sorted list.
     No limitations for extra space
     Note: To use "sqrt" function from the module "math". This function returns float type
         so you should apply function "int" and the last part may contain more items
@@ -55,13 +55,22 @@ def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) ->
     chunk_len = int(sqrt(items_len))
     chunks_count = items_len // chunk_len
 
+    if items_len < chunk_len * 2:
+        return sorted(items, key=key) # type: ignore
+
     for i in range(0, chunks_count):
         if i != chunks_count-1:
             chunk = list(items[i*chunk_len : (i + 1) * chunk_len])
         else:
             chunk = list(items[i*chunk_len:])
         chunk.sort(key=key) # type: ignore
-        result.extend(chunk)
+        if i == 0:
+            result.extend(chunk)
+        else:
+            _insort_chunk(result, chunk, key)
 
     return result
-        
+
+def _insort_chunk[T, K](result: list[T], chunk: list[T], key:Callable[[T], T|K]|None=None) -> None:
+    for x in chunk:
+        insort(result, x, key=key) # type: ignore
