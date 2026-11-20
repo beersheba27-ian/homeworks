@@ -1,5 +1,6 @@
 from typing import Callable, Sequence
 from math import sqrt
+from bisect import bisect_left, bisect_right
 
 
 def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]:
@@ -10,7 +11,14 @@ def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]
     for empty range the function returns the empty list
     for missed second argument the function returns the same "numbers"
     """
-    return [x for x in numbers if allowed is None or allowed.start <= x < allowed.stop]
+    if allowed is None:
+        return list(numbers)
+    elif allowed.start == allowed.stop:
+        return []
+
+    left_idx = bisect_left(numbers, allowed.start)
+    right_idx = bisect_right(numbers, allowed.stop - 1)
+    return list(numbers[left_idx:right_idx])
 
 def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)->list[int] :
     """
@@ -18,7 +26,13 @@ def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)-
     disallowed - range of numbers (may be empty)
     returns list of numbers from "numbers" that are not in a given range
     """
-    return [x for x in numbers if disallowed is None or x < disallowed.start or x >= disallowed.stop]
+    
+    if disallowed is None or disallowed.start == disallowed.stop:
+        return list(numbers)
+    
+    left_idx = bisect_left(numbers, disallowed.start)
+    right_idx = bisect_right(numbers, disallowed.stop - 1)
+    return list(numbers[:left_idx]) + list(numbers[right_idx:])
 
 def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) -> list[T]:
     """
