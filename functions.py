@@ -1,4 +1,5 @@
 from typing import Callable, Sequence
+from math import sqrt
 
 
 def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]:
@@ -29,4 +30,24 @@ def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) ->
     No limitations for extra space
     Note: To use "sqrt" function from the module "math". This function returns float type
         so you should apply function "int" and the last part may contain more items
-    """      
+    """
+    result = []
+
+    items_len = len(items)
+    
+    if items_len == 0:
+        return result
+    
+    chunk_len = int(sqrt(items_len))
+    chunks_count = items_len // chunk_len
+
+    for i in range(0, chunks_count):
+        if i != chunks_count-1:
+            chunk = list(items[i*chunk_len : (i + 1) * chunk_len])
+        else:
+            chunk = list(items[i*chunk_len:])
+        chunk.sort(key=key) # type: ignore
+        result.extend(chunk)
+
+    return result
+        
