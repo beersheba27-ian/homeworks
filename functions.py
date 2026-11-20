@@ -13,7 +13,7 @@ def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)-
     """
     numbers - sorted list of numbers in ascending order 
     disallowed - range of numbers (may be empty)
-     returns list of numbers from "numbers" that are not in a given range
+    returns list of numbers from "numbers" that are not in a given range
     """
 def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) -> list[T]:
     """
