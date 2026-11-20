@@ -9,12 +9,16 @@ def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]
     for empty range the function returns the empty list
     for missed second argument the function returns the same "numbers"
     """
+    return [x for x in numbers if allowed is None or allowed.start <= x < allowed.stop]
+
 def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)->list[int] :
     """
     numbers - sorted list of numbers in ascending order 
     disallowed - range of numbers (may be empty)
     returns list of numbers from "numbers" that are not in a given range
     """
+    return [x for x in numbers if disallowed is None or x < disallowed.start or x >= disallowed.stop]
+
 def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) -> list[T]:
     """
     returns sorted by key list
