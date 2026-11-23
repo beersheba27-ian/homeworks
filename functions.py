@@ -15,9 +15,14 @@ def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]
         return list(numbers)
     elif allowed.start == allowed.stop:
         return []
+    
+    start = allowed.start
+    stop = allowed.stop - allowed.step
+    if allowed.step < 0:
+        start, stop = stop, start
 
-    left_idx = bisect_left(numbers, allowed.start)
-    right_idx = bisect_right(numbers, allowed.stop - 1)
+    left_idx = bisect_left(numbers, start)
+    right_idx = bisect_right(numbers, stop)
     return list(numbers[left_idx:right_idx])
 
 def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)->list[int] :
