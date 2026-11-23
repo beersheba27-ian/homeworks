@@ -21,6 +21,12 @@ class TestGetAllRange(unittest.TestCase):
     def test_empty_numbers(self):
         self.assertEqual(get_all_range([], range(1, 5)), [])
 
+    def test_numbers_in_allowed_range(self):
+        self.assertEqual(get_all_range([1, 20, 25, 30], range(1, 41)),  [1, 20, 25, 30])
+        
+    def test_numbers_part_in_allowed_range_reverse(self):
+        self.assertEqual(get_all_range([-10, -3, 1, 20, 25, 30, 40, 41], range(41, 25, -1)),  [30, 40, 41])
+
 
 class TestGetAllNotInRange(unittest.TestCase):
     def test_default_range(self):
@@ -51,6 +57,9 @@ class TestGetAllNotInRange(unittest.TestCase):
 
     def test_empty_numbers(self):
         self.assertEqual(get_all_not_in_range([], range(-2, 3)), [])
+
+    def test_all_no_matchcustom_step(self):
+        self.assertEqual(get_all_not_in_range([-10, -3, 20, 30, 40, 41], range(1, 41, 2)), [-10, -3, 20, 30, 40, 41])
 
 
 class TestMySorted(unittest.TestCase):
