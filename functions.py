@@ -13,12 +13,15 @@ def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]
     """
     if allowed is None:
         return list(numbers)
-    elif allowed.start == allowed.stop:
-        return []
     
+    direction = 1 if allowed.step > 0 else -1
     start = allowed.start
     stop = allowed.stop - allowed.step
-    if allowed.step < 0:
+
+    if direction*start >= direction*stop:
+        return []
+    
+    if direction < 0:
         start, stop = stop, start
 
     left_idx = bisect_left(numbers, start)
@@ -32,11 +35,21 @@ def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)-
     returns list of numbers from "numbers" that are not in a given range
     """
     
-    if disallowed is None or disallowed.start == disallowed.stop:
+    if disallowed is None:
         return list(numbers)
     
-    left_idx = bisect_left(numbers, disallowed.start)
-    right_idx = bisect_right(numbers, disallowed.stop - 1)
+    direction = 1 if disallowed.step > 0 else -1
+    start = disallowed.start
+    stop = disallowed.stop - disallowed.step
+
+    if direction*start >= direction*stop:
+        return list(numbers)
+    
+    if direction < 0:
+        start, stop = stop, start
+    
+    left_idx = bisect_left(numbers, start)
+    right_idx = bisect_right(numbers, stop)
     return list(numbers[:left_idx]) + list(numbers[right_idx:])
 
 def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) -> list[T]:

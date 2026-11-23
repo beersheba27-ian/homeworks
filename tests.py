@@ -15,6 +15,9 @@ class TestGetAllRange(unittest.TestCase):
     def test_empty_range(self):
         self.assertEqual(get_all_range([1, 2, 3], range(4, 4)), [])
 
+    def test_empty_irregular_range(self):
+        self.assertEqual(get_all_range([1, 2, 3], range(1, 10, -1)), [])
+
     def test_no_matches(self):
         self.assertEqual(get_all_range([1, 2, 3], range(5, 8)), [])
 
@@ -42,6 +45,10 @@ class TestGetAllNotInRange(unittest.TestCase):
     def test_empty_range(self):
         numbers = [-2, 0, 3]
         self.assertEqual(get_all_not_in_range(numbers, range(1, 1)), numbers)
+
+    def test_empty_irregular_range(self):
+        numbers = [-2, 0, 3]
+        self.assertEqual(get_all_not_in_range(numbers, range(-5, 5, -1)), numbers)
 
     def test_exclude_all(self):
         self.assertEqual(
