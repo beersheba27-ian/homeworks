@@ -11,22 +11,7 @@ def get_all_range(numbers: Sequence[int], allowed: range|None = None)->list[int]
     for empty range the function returns the empty list
     for missed second argument the function returns the same "numbers"
     """
-    if allowed is None:
-        return list(numbers)
-    
-    direction = 1 if allowed.step > 0 else -1
-    start = allowed.start
-    stop = allowed.stop - allowed.step
-
-    if direction*start >= direction*stop:
-        return []
-    
-    if direction < 0:
-        start, stop = stop, start
-
-    left_idx = bisect_left(numbers, start)
-    right_idx = bisect_right(numbers, stop)
-    return list(numbers[left_idx:right_idx])
+    return [x for x in numbers if x in allowed] if allowed is not None else list(numbers)
 
 def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)->list[int] :
     """
@@ -34,7 +19,7 @@ def get_all_not_in_range(numbers: Sequence[int], disallowed: range|None = None)-
     disallowed - range of numbers (may be empty)
     returns list of numbers from "numbers" that are not in a given range
     """
-    return [x for x in numbers if x not in disallowed] if disallowed else list(numbers)
+    return [x for x in numbers if x not in disallowed] if disallowed is not None else list(numbers)
 
 def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) -> list[T]:
     """
