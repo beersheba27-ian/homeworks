@@ -18,13 +18,8 @@ def my_sorted[T, K](items: Sequence[T],/,*, key:Callable[[T], T|K]|None=None) ->
 
     while len(buffer) > 0:
         end = _get_sorted_interval_end(buffer, key=key)
-        if end > 0:
-            end += 1
-            result = _merge(result, buffer[:end], key=key)
-            buffer = buffer[end:]
-        else:
-            insort(result, buffer[0], key=key) # type: ignore
-            buffer = buffer[1:]
+        result = _merge(result, buffer[:end], key=key)
+        buffer = buffer[end:]
 
     return result
 
@@ -39,7 +34,7 @@ def _get_sorted_interval_end[T,K](items: Sequence[T], /,*, key:Callable[[T], T|K
     while i < length-1 and key(items[i]) <= key(items[i+1]): # type: ignore
         i += 1
 
-    return i
+    return i+1
 
 def _merge[T, K](part1: Sequence[T], part2: Sequence[T], key: Callable[[T], T|K]|None = None)->list:
     """
